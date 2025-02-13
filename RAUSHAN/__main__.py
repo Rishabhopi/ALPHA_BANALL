@@ -4,6 +4,7 @@ import logging
 import asyncio
 from pyrogram import enums
 from pyrogram.enums import ChatMembersFilter, ChatMemberStatus, ChatType
+from pyrogram.types import ChatPermissions
 from flask import Flask
 from threading import Thread
 from pymongo import MongoClient, errors
