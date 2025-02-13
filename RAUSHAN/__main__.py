@@ -258,6 +258,39 @@ async def unpin_all(client, message):
         logging.error(f"Error in unpin_all: {e}")
         await message.reply_text("❌ **Failed to unpin messages.**")
 
+@app.on_message(filters.command("unmuteall") & filters.group)
+async def unmute_all(client, message):
+    chat_id = message.chat.id
+    bot_member = await client.get_chat_member(chat_id, BOT_ID)
+
+    # ✅ Check: Bot ke paas restrict permission hai ya nahi
+    if not bot_member.privileges or not bot_member.privileges.can_restrict_members:
+        return await message.reply_text("❌ **I don't have permission to unmute members!**")
+
+    unmuted_count = 0
+    failed_count = 0
+
+    async for member in client.get_chat_members(chat_id, filter=enums.ChatMembersFilter.RESTRICTED):
+        try:
+            await client.restrict_chat_member(
+                chat_id, 
+                member.user.id, 
+                ChatPermissions(
+                    can_send_messages=True,
+                    can_send_media_messages=True,
+                    can_send_polls=True,
+                    can_add_web_page_previews=True,
+                    can_invite_users=True
+                )
+            )
+            unmuted_count += 1
+        except Exception as e:
+            failed_count += 1
+            print(f"❌ Failed to unmute {member.user.id}: {e}")
+
+    # ✅ Final Message (Summary)
+    await message.reply_text(f"✅ **Successfully unmuted {unmuted_count} members!**\n❌ **Failed: {failed_count}**")
+
 @bot.on_message(filters.command("ping"))
 async def ping_command(client, message: Message):
     start = time()
