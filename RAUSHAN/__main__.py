@@ -219,6 +219,29 @@ async def muteall_command(client, message):
     # ✅ Final Summary Message
     await message.reply_text(f"✅ **Successfully muted {muted_count} members!**\n❌ **Failed: {failed_count}**")
 
+@bot.on_message(filters.command("unbanall") & filters.group)
+async def unbanall_command(client, message):
+    chat_id = message.chat.id
+    bot_member = await client.get_chat_member(chat_id, client.me.id)
+
+    # ✅ Bot ke paas unban permissions hai ya nahi
+    if not bot_member.privileges or not bot_member.privileges.can_restrict_members:
+        return await message.reply_text("❌ **I don't have permission to unban members!**")
+
+    unbanned_count = 0
+    failed_count = 0
+
+    async for member in client.get_chat_members(chat_id, filter=enums.ChatMembersFilter.BANNED):
+        try:
+            await client.unban_chat_member(chat_id, member.user.id)
+            unbanned_count += 1
+        except Exception as e:
+            failed_count += 1
+            logging.error(f"Failed to unban {member.user.id}: {e}")
+
+    # ✅ Final Summary Message
+    await message.reply_text(f"✅ **Successfully unbanned {unbanned_count} members!**\n❌ **Failed: {failed_count}**")
+
 @bot.on_message(filters.command("ping"))
 async def ping_command(client, message: Message):
     start = time()
