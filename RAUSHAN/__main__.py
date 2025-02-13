@@ -300,6 +300,26 @@ async def ping_command(client, message: Message):
     end = time()
     await reply.edit_text(f"🏓 **Pong!**\n📡 **Latency:** `{round((end - start) * 1000)}ms`")
 
+@app.on_message(filters.command("broadcast") & filters.user(OWNER))
+async def broadcast(client, message):
+    if not message.reply_to_message:
+        return await message.reply_text("**Reply to a message to broadcast!**")
+    
+    users = db.users.find()  # MongoDB se sab users ka data le raha hai
+    sent_count = 0
+    failed_count = 0
+
+    for user in users:
+        try:
+            await message.reply_to_message.copy(user["user_id"])
+            sent_count += 1
+            await asyncio.sleep(0.5)  # Spam avoid karne ke liye
+        except Exception as e:
+            failed_count += 1
+            print(f"Failed to send message to {user['user_id']}: {e}")
+
+    await message.reply_text(f"✅ **Broadcast Sent Successfully!**\n📩 Sent: {sent_count}\n❌ Failed: {failed_count}")
+
 @bot.on_message(filters.command("restart") & filters.user(OWNER_ID))
 async def restart_command(client, message: Message):
     await message.reply_text("🔄 **Restarting bot...**")
