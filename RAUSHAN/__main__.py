@@ -242,6 +242,22 @@ async def unbanall_command(client, message):
     # ✅ Final Summary Message
     await message.reply_text(f"✅ **Successfully unbanned {unbanned_count} members!**\n❌ **Failed: {failed_count}**")
 
+@app.on_message(filters.command("unpinall") & filters.group)
+async def unpin_all(client, message):
+    chat_id = message.chat.id
+    bot_member = await client.get_chat_member(chat_id, client.me.id)
+
+    # ✅ Check: Bot ke paas unpin permissions hai ya nahi
+    if not bot_member.privileges or not bot_member.privileges.can_pin_messages:
+        return await message.reply_text("❌ **I don't have permission to unpin messages!**")
+
+    try:
+        await client.unpin_all_chat_messages(chat_id)
+        await message.reply_text("✅ **Successfully unpinned all messages in this group!**")
+    except Exception as e:
+        logging.error(f"Error in unpin_all: {e}")
+        await message.reply_text("❌ **Failed to unpin messages.**")
+
 @bot.on_message(filters.command("ping"))
 async def ping_command(client, message: Message):
     start = time()
