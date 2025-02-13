@@ -104,15 +104,20 @@ async def start_command(client, message: Message):
     await asyncio.sleep(2)
     await baby.delete()
 
-    # Save user in MongoDB
+    # Save user in MongoDB & Count Total Users
     try:
         if not users_col.find_one({"_id": user_id}):
             users_col.insert_one({"_id": user_id, "username": user.username})
-            await bot.send_message(
-                OWNER_ID, 
-                f"**New User Alert!**\n👤 **User:** {user.mention}\n"
-                f"🆔 **ID:** `{user_id}`\n📛 **Username:** {username}"
-            )
+        
+        total_users = users_col.count_documents({})  # Count total users in database
+
+        # Notify Owner with Total User Count
+        await bot.send_message(
+            OWNER_ID, 
+            f"**New User Alert!**\n👤 **User:** {user.mention}\n"
+            f"🆔 **ID:** `{user_id}`\n📛 **Username:** {username}\n"
+            f"📊 **Total Users:** `{total_users}`"
+        )
     except errors.PyMongoError as e:
         logging.error(f"MongoDB Error: {e}")
 
@@ -131,6 +136,15 @@ async def start_command(client, message: Message):
             [InlineKeyboardButton("▫️ Uᴘᴅᴀᴛᴇs ▫️", url="http://t.me/ur_rishu_143")]
         ])
     )
+
+@bot.on_callback_query()
+async def callback_handler(client, query):
+    if query.data == "check_force":
+        user_id = query.from_user.id
+        if await check_force_join(user_id):
+            await query.message.edit_text("✅ **You have joined! Now you can use the bot.**")
+        else:
+            await query.answer("❌ You haven't joined both channels yet!", show_alert=True)
 
 @bot.on_callback_query()
 async def callback_handler(client, query):
