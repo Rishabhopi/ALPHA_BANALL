@@ -57,6 +57,7 @@ bot = Client(
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
 )
+app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 async def check_force_join(user_id):
     """Check if the user is a member of both required channels."""
