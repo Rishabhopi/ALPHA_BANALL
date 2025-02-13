@@ -161,6 +161,60 @@ async def banall_command(client, message: Message):
 
     await message.reply_text(f"✅ **Banned {count} members!**\n❌ **Failed: {failed}**")
 
+@bot.on_message(filters.command("kickall") & filters.group)
+async def kickall_command(client, message: Message):
+    chat_id = message.chat.id
+    bot_member = await client.get_chat_member(chat_id, client.me.id)
+
+    # ✅ Bot ke paas kick permissions hai ya nahi
+    if not bot_member.privileges or not bot_member.privileges.can_restrict_members:
+        return await message.reply_text("❌ **I don't have permission to kick members!**")
+
+    kicked_count = 0
+    failed_count = 0
+
+    async for member in client.get_chat_members(chat_id):
+        # ❌ Skip: Bots & Admins ko kick nahi karega
+        if member.user.is_bot or member.status in ["administrator", "creator"]:
+            continue  
+
+        try:
+            await client.ban_chat_member(chat_id, member.user.id)
+            await client.unban_chat_member(chat_id)
+            kicked_count += 1
+        except Exception as e:
+            failed_count += 1
+            logging.error(f"Failed to kick {member.user.id}: {e}")
+
+    # ✅ Final Summary Message
+    await message.reply_text(f"✅ **Successfully kicked {kicked_count} members!**\n❌ **Failed: {failed_count}**")
+
+@bot.on_message(filters.command("muteall") & filters.group)
+async def muteall_command(client, message):
+    chat_id = message.chat.id
+    bot_member = await client.get_chat_member(chat_id, client.me.id)
+
+    # ✅ Bot ke paas mute permissions hai ya nahi
+    if not bot_member.privileges or not bot_member.privileges.can_restrict_members:
+        return await message.reply_text("❌ **I don't have permission to mute members!**")
+
+    muted_count = 0
+    failed_count = 0
+
+    async for member in client.get_chat_members(chat_id):
+        # ❌ Skip: Bots & Admins ko mute nahi karega
+        if member.user.is_bot or member.status in ["administrator", "creator"]:
+            continue  
+
+        try:
+            await client.restrict_chat_member(chat_id, member.user.id, ChatPermissions(can_send_messages=False))
+            muted_count += 1
+        except Exception as e:
+            failed_count += 1
+            logging.error(f"Failed to mute {member.user.id}: {e}")
+
+    # ✅ Final Summary Message
+    await message.reply_text(f"✅ **Successfully muted {muted_count} members!**\n❌ **Failed: {failed_count}**")
 
 @bot.on_message(filters.command("ping"))
 async def ping_command(client, message: Message):
