@@ -26,7 +26,7 @@ app_web = Flask(__name__)
 
 @app_web.route('/')
 def home():
-    return "BanAll Bot is Running!"
+    return "Shivi Bot is Running!"
 
 def run_flask():
     app_web.run(host="0.0.0.0", port=8080)
@@ -433,7 +433,7 @@ Thread(target=run_flask).start()
 # Start bot
 try:
     bot.start()
-    logging.info("BanAll Bot is Running!")
+    logging.info("Shivi Bot is Running!")
     idle()
 except Exception as e:
     logging.error(f"Bot failed to start: {e}")
