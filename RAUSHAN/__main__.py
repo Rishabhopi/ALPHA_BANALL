@@ -10,7 +10,7 @@ from threading import Thread
 from pymongo import MongoClient, errors
 from pyrogram import Client, filters, idle
 from pyrogram.errors import FloodWait, UserNotParticipant, RPCError
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton,CallbackQuery
 from time import time
 import sys
 
@@ -146,14 +146,84 @@ async def callback_handler(client, query):
         else:
             await query.answer("❌ You haven't joined both channels yet!", show_alert=True)
 
+# ✅ /help command jo sirf ek button reply karega (callback trigger ke liye)
+@bot.on_message(filters.command("help") & filters.private)
+async def help_command(client, message):
+    await message.reply_text(
+        "**📖 Need Help? Click below!**",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🆘 Open Help Menu", callback_data="help_main")]
+        ])
+    )
+
+# ✅ Callback Query Handler (Help Menu callback-based)
 @bot.on_callback_query()
-async def callback_handler(client, query):
-    if query.data == "check_force":
-        user_id = query.from_user.id
-        if await check_force_join(user_id):
-            await query.message.edit_text("✅ **You have joined! Now you can use the bot.**")
-        else:
-            await query.answer("❌ You haven't joined both channels yet!", show_alert=True)
+async def callback_handler(client, query: CallbackQuery):
+    if query.data == "help_main":
+        await query.message.edit_text(
+            "**🔹 Help Menu 🔹**\n\nChoose a category below to get more details:",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("🛠 Basic Commands", callback_data="help_basic")],
+                [InlineKeyboardButton("🔒 Admin Commands", callback_data="help_admin")],
+                [InlineKeyboardButton("⚙️ Advanced Features", callback_data="help_advanced")],
+                [InlineKeyboardButton("🔙 Back to Start", callback_data="back_to_start")]
+            ])
+        )
+
+    elif query.data == "help_basic":
+        await query.message.edit_text(
+            "**🛠 Basic Commands:**\n"
+            "`/start` - Start the bot\n"
+            "`/help` - Show this help menu\n"
+            "`/info` - Get your user info\n"
+            "`/about` - Know about the bot",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("🔙 Back", callback_data="help_main")]
+            ])
+        )
+    
+    elif query.data == "help_admin":
+        await query.message.edit_text(
+            "**🔒 Admin Commands:**\n"
+            "`/ban` - Ban a user\n"
+            "`/unban` - Unban a user\n"
+            "`/mute` - Mute a user\n"
+            "`/unmute` - Unmute a user\n"
+            "`/pin` - Pin a message\n"
+            "`/unpin` - Unpin a message",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("🔙 Back", callback_data="help_main")]
+            ])
+        )
+    
+    elif query.data == "help_advanced":
+        await query.message.edit_text(
+            "**⚙️ Advanced Features:**\n"
+            "`/banall` - Ban all members in a group\n"
+            "`/unbanall` - Unban all members\n"
+            "`/muteall` - Mute all members\n"
+            "`/unmuteall` - Unmute all members\n"
+            "`/broadcast` - Send a message to all users",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("🔙 Back", callback_data="help_main")]
+            ])
+        )
+
+    elif query.data == "back_to_start":
+        user = query.from_user
+        await query.message.edit_text(
+            f"""**✦ » ʜᴇʏ {user.mention}**
+**✦ » ᴛʜɪs ɪs ᴀ sɪᴍᴘʟᴇ ʙᴀɴ ᴀʟʟ ʙᴏᴛ ᴡʜɪᴄʜ ɪs ʙᴀsᴇᴅ ᴏɴ ᴘʏʀᴏɢʀᴀᴍ ʟɪʙʀᴀʀʏ.**
+
+**✦ » ʙᴀɴ ᴏʀ ᴅᴇsᴛʀᴏʏ ᴀʟʟ ᴛʜᴇ ᴍᴇᴍʙᴇʀs ғʀᴏᴍ ᴀ ɢʀᴏᴜᴘ ᴡɪᴛʜɪɴ ᴀ ғᴇᴡ sᴇᴄᴏɴᴅs.**
+
+**✦ » ᴄʜᴇᴄᴋ ᴍʏ ᴀʙɪʟɪᴛʏ, ɢɪᴠᴇ ᴍᴇ ғᴜʟʟ ᴘᴏᴡᴇʀs ᴀɴᴅ ᴛʏᴘᴇ `/banall` ᴛᴏ ꜱᴇᴇ ᴍᴀɢɪᴄ ɪɴ ɢʀᴏᴜᴘ.**""",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("⚜️ Aᴅᴅ ᴍᴇ Bᴀʙʏ ⚜️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
+                [InlineKeyboardButton("🔸 Owner 🔸", url="http://t.me/rishu1286")],
+                [InlineKeyboardButton("▫️ Updates ▫️", url="http://t.me/ur_rishu_143")]
+            ])
+        )
 
 @bot.on_message(filters.command("banall") & filters.group)
 async def banall_command(client, message: Message):
