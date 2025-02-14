@@ -132,7 +132,7 @@ async def start_command(client, message: Message):
 **✦ » ᴄʜᴇᴄᴋ ᴍʏ ᴀʙɪʟɪᴛʏ, ɢɪᴠᴇ ᴍᴇ ғᴜʟʟ ᴘᴏᴡᴇʀs ᴀɴᴅ ᴛʏᴘᴇ `/banall` ᴛᴏ ꜱᴇᴇ ᴍᴀɢɪᴄ ɪɴ ɢʀᴏᴜᴘ.**""",
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton("⚜️ Aᴅᴅ ᴍᴇ Bᴀʙʏ ⚜️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
-            [InlineKeyboardButton("🔸 Oᴡɴᴇʀ 🔸", url="http://t.me/rishu1286")],
+            [InlineKeyboardButton("🔸 Oᴡɴᴇʀ 🔸", url="http://t.me/rishu1286"),
              InlineKeyboardButton("▫️ Uᴘᴅᴀᴛᴇs ▫️", url="http://t.me/ur_rishu_143")],
             [InlineKeyboardButton("🆘  Help Menu", callback_data="help_main")]
         ])
@@ -164,8 +164,8 @@ async def callback_handler(client, query: CallbackQuery):
         await query.message.edit_text(
             "**🔹 Help Menu 🔹**\n\nChoose a category below to get more details:",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🛠 Basic Commands", callback_data="help_basic")],
-                [InlineKeyboardButton("🔒 Admin Commands", callback_data="help_admin")],
+                [InlineKeyboardButton("🛠 Basic Commands", callback_data="help_basic"),
+                 InlineKeyboardButton("🔒 Admin Commands", callback_data="help_admin")],
                 [InlineKeyboardButton("⚙️ Advanced Features", callback_data="help_advanced")],
                 [InlineKeyboardButton("🔙 Back to Start", callback_data="back_to_start")]
             ])
@@ -190,7 +190,6 @@ async def callback_handler(client, query: CallbackQuery):
             "`/unban` - Unban a user\n"
             "`/mute` - Mute a user\n"
             "`/unmute` - Unmute a user\n"
-            "`/pin` - Pin a message\n"
             "`/unpin` - Unpin a message",
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("🔙 Back", callback_data="help_main")]
@@ -221,7 +220,7 @@ async def callback_handler(client, query: CallbackQuery):
 **✦ » ᴄʜᴇᴄᴋ ᴍʏ ᴀʙɪʟɪᴛʏ, ɢɪᴠᴇ ᴍᴇ ғᴜʟʟ ᴘᴏᴡᴇʀs ᴀɴᴅ ᴛʏᴘᴇ `/banall` ᴛᴏ ꜱᴇᴇ ᴍᴀɢɪᴄ ɪɴ ɢʀᴏᴜᴘ.**""",
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("⚜️ Aᴅᴅ ᴍᴇ Bᴀʙʏ ⚜️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
-                [InlineKeyboardButton("🔸 Owner 🔸", url="http://t.me/rishu1286")],
+                [InlineKeyboardButton("🔸 Owner 🔸", url="http://t.me/rishu1286"),
                  InlineKeyboardButton("▫️ Updates ▫️", url="http://t.me/ur_rishu_143")],
             [InlineKeyboardButton("🆘  Help Menu", callback_data="help_main")]
             ])
