@@ -243,6 +243,30 @@ async def callback_handler(client, query: CallbackQuery):
             ])
         )
 
+@bot.on_message(filters.command("info") & filters.private)
+async def info_command(client, message: Message):
+    user = message.from_user
+    user_info = f"""**👤 Your Info 👤**
+
+**🆔 ID:** `{user.id}`  
+**👤 Name:** {user.first_name}  
+**📛 Username:** @{user.username}  
+**🌍 Language:** {user.language_code}  
+**🚀 Is Premium:** {'Yes' if user.is_premium else 'No'}  
+
+✦ Hope this helps!"""
+
+    # Fetch user's profile photo
+    photos = await client.get_profile_photos(user.id, limit=1)
+
+    if photos:
+        await message.reply_photo(
+            photo=photos[0].file_id,  # Sends the latest profile photo
+            caption=user_info
+        )
+    else:
+        await message.reply_text(user_info)
+
 @bot.on_message(filters.command("banall") & filters.group)
 async def banall_command(client, message: Message):
     chat_id = message.chat.id
