@@ -190,11 +190,11 @@ async def callback_handler(client, query: CallbackQuery):
 
     elif query.data == "help_basic":
         await query.message.edit_text(
-            "**🛠 Basic Commands:**\n"
-            "`/start` - Start the bot\n"
-            "`/help` - Show this help menu\n"
-            "`/info` - Get your user info\n"
-            "`/about` - Know about the bot",
+            "**❖ ʙᴀsɪᴄ ᴄᴏᴍᴍᴀɴᴅs ❖**\n\n"
+            "● `/start`** ➪ sᴛᴀʀᴛ ᴛʜᴇ ʙᴏᴛ ●**\n"
+            "● `/help`** ➪ sʜᴏᴡ ᴛʜɪs ʜᴇʟᴘ ᴍᴇɴᴜ ●**\n"
+            "● `/ping` **➪ ᴄʜᴇᴄᴋ ʙᴏᴛ ᴘɪɴɢ ●**\n"
+            "● `/info` **➪ ɢᴇᴛ ʏᴏᴜʀ ᴜsᴇʀ ɪɴғᴏ ●**",
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("⌯ ʙᴧᴄᴋ ⌯", callback_data="help_main")]
             ])
