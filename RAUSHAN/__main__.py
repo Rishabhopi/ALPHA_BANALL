@@ -139,28 +139,20 @@ async def start_command(client, message: Message):
     )
 
 @bot.on_callback_query()
-async def callback_handler(client, query):
+async def callback_handler(client, query: CallbackQuery):
+    await query.answer()  # Callback properly acknowledge karega
+
+    # ✅ Force Join Check
     if query.data == "check_force":
         user_id = query.from_user.id
         if await check_force_join(user_id):
             await query.message.edit_text("✅ **You have joined! Now you can use the bot.**")
         else:
             await query.answer("❌ You haven't joined both channels yet!", show_alert=True)
+        return
 
-# ✅ /help command jo sirf ek button reply karega (callback trigger ke liye)
-@bot.on_message(filters.command("help") & filters.private)
-async def help_command(client, message):
-    await message.reply_text(
-        "**📖 Need Help? Click below!**",
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("🆘 Open Help Menu", callback_data="help_main")]
-        ])
-    )
-
-# ✅ Callback Query Handler (Help Menu callback-based)
-@bot.on_callback_query()
-async def callback_handler(client, query: CallbackQuery):
-    if query.data == "help_main":
+    # ✅ Help Menu Handling
+    elif query.data == "help_main":
         await query.message.edit_text(
             "**🔹 Help Menu 🔹**\n\nChoose a category below to get more details:",
             reply_markup=InlineKeyboardMarkup([
@@ -182,7 +174,7 @@ async def callback_handler(client, query: CallbackQuery):
                 [InlineKeyboardButton("🔙 Back", callback_data="help_main")]
             ])
         )
-    
+
     elif query.data == "help_admin":
         await query.message.edit_text(
             "**🔒 Admin Commands:**\n"
@@ -195,7 +187,7 @@ async def callback_handler(client, query: CallbackQuery):
                 [InlineKeyboardButton("🔙 Back", callback_data="help_main")]
             ])
         )
-    
+
     elif query.data == "help_advanced":
         await query.message.edit_text(
             "**⚙️ Advanced Features:**\n"
@@ -222,7 +214,7 @@ async def callback_handler(client, query: CallbackQuery):
                 [InlineKeyboardButton("⚜️ Aᴅᴅ ᴍᴇ Bᴀʙʏ ⚜️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
                 [InlineKeyboardButton("🔸 Owner 🔸", url="http://t.me/rishu1286"),
                  InlineKeyboardButton("▫️ Updates ▫️", url="http://t.me/ur_rishu_143")],
-            [InlineKeyboardButton("🆘  Help Menu", callback_data="help_main")]
+                [InlineKeyboardButton("🆘  Help Menu", callback_data="help_main")]
             ])
         )
 
