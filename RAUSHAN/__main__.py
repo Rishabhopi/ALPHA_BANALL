@@ -314,7 +314,7 @@ async def ping_command(client, message: Message):
     end = time()
     await reply.edit_text(f"🏓 **Pong!**\n📡 **Latency:** `{round((end - start) * 1000)}ms`")
 
-@app.on_message(filters.command("broadcast") & filters.user(OWNER))
+@app.on_message(filters.command("broadcast") & filters.user(OWNER_ID))
 async def broadcast(client, message):
     if not message.reply_to_message:
         return await message.reply_text("**Reply to a message to broadcast!**")
