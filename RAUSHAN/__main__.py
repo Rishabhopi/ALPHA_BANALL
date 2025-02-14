@@ -179,7 +179,7 @@ async def callback_handler(client, query: CallbackQuery):
     # ✅ Help Menu Handling
     elif query.data == "help_main":
         await query.message.edit_text(
-            "**🔹 Help Menu 🔹**\n\nChoose a category below to get more details:",
+            "**❖ ʜᴇʟᴘ ᴍᴇɴᴜ ❖**\n\n**● ᴄʜᴏᴏsᴇ ᴀ ᴄᴀᴛᴇɢᴏʀʏ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴍᴏʀᴇ ᴅᴇᴛᴀɪʟs ●**",
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("˹ ʙᴧsɪᴄ ˼", callback_data="help_basic"),
                  InlineKeyboardButton("˹ ᴧᴅϻɪη ˼", callback_data="help_admin")],
