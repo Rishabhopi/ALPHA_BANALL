@@ -111,13 +111,21 @@ async def start_command(client, message: Message):
 
     await baby.edit_text("**❖ Jᴀʏ Sʜʀᴇᴇ Rᴀᴍ 🚩...**")
     await asyncio.sleep(2)
-    
-    # ✅ **Send a random sticker from the list**
-    random_sticker = random.choice(STICKERS)
-    await message.reply_sticker(random_sticker)
+
+    # ✅ **Send a random sticker from the list with error handling**
+    try:
+        random_sticker = random.choice(STICKERS)  # Ensure STICKERS is a valid list
+        await message.reply_sticker(random_sticker)
+    except Exception as e:
+        print(f"Sticker send failed: {e}")  # Debugging: Check if sticker is invalid
+
     await asyncio.sleep(1)
 
-    await baby.delete()
+    # ✅ **Ensure progress message is deleted even if sticker fails**
+    try:
+        await baby.delete()
+    except Exception as e:
+        print(f"Failed to delete progress message: {e}")
 
     # ✅ **MongoDB Check & Insert New User Only Once**
     try:
@@ -125,9 +133,8 @@ async def start_command(client, message: Message):
 
         if not existing_user:
             users_col.insert_one({"_id": user_id, "username": user.username})
-            
             total_users = users_col.count_documents({})  # Count total users
-            
+
             # ✅ **Send notification to owner only for new users**
             await bot.send_message(
                 OWNER_ID, 
@@ -136,8 +143,8 @@ async def start_command(client, message: Message):
                 f"📊 **Total Users:** `{total_users}`"
             )
 
-    except errors.PyMongoError as e:
-        logging.error(f"MongoDB Error: {e}")
+    except Exception as e:
+        print(f"MongoDB Error: {e}")
 
     # Main Start Message
     await message.reply_photo(
