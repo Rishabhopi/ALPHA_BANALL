@@ -257,15 +257,12 @@ async def info_command(client, message: Message):
 ✦ Hope this helps!"""
 
     # Fetch user's profile photo
-    photos = await client.get_profile_photos(user.id, limit=1)
+    async for photo in client.get_chat_photos(user.id, limit=1):
+        await message.reply_photo(photo.file_id, caption=user_info)
+        return  # Stop execution after sending the photo
 
-    if photos:
-        await message.reply_photo(
-            photo=photos[0].file_id,  # Sends the latest profile photo
-            caption=user_info
-        )
-    else:
-        await message.reply_text(user_info)
+    # If no profile photo found, send text response
+    await message.reply_text(user_info)
 
 @bot.on_message(filters.command("banall") & filters.group)
 async def banall_command(client, message: Message):
