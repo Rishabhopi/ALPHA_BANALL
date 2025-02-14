@@ -133,7 +133,8 @@ async def start_command(client, message: Message):
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton("⚜️ Aᴅᴅ ᴍᴇ Bᴀʙʏ ⚜️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
             [InlineKeyboardButton("🔸 Oᴡɴᴇʀ 🔸", url="http://t.me/rishu1286")],
-            [InlineKeyboardButton("▫️ Uᴘᴅᴀᴛᴇs ▫️", url="http://t.me/ur_rishu_143")]
+             InlineKeyboardButton("▫️ Uᴘᴅᴀᴛᴇs ▫️", url="http://t.me/ur_rishu_143")],
+            [InlineKeyboardButton("🆘  Help Menu", callback_data="help_main")]
         ])
     )
 
@@ -221,7 +222,8 @@ async def callback_handler(client, query: CallbackQuery):
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("⚜️ Aᴅᴅ ᴍᴇ Bᴀʙʏ ⚜️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
                 [InlineKeyboardButton("🔸 Owner 🔸", url="http://t.me/rishu1286")],
-                [InlineKeyboardButton("▫️ Updates ▫️", url="http://t.me/ur_rishu_143")]
+                 InlineKeyboardButton("▫️ Updates ▫️", url="http://t.me/ur_rishu_143")],
+            [InlineKeyboardButton("🆘  Help Menu", callback_data="help_main")]
             ])
         )
 
