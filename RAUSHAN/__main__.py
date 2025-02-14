@@ -71,6 +71,15 @@ async def check_force_join(user_id):
         logging.warning(f"Error checking force join for {user_id}: {e}")
         return False
 
+
+STICKERS = [
+    "CAACAgUAAxkBAAICq2XzBSX9C1kU7WOsdWkSTjZ51Ue6AAI4AAPBnGAVdVbHhJ-KT-M0BA",  # Sticker 1
+    "CAACAgUAAxkBAAICrWXzBSusacx4AOcs5MlhCTWhjYB4AAI6AAPBnGAVc_rBoRsM-4Y0BA",  # Sticker 2
+    "CAACAgUAAxkBAAICr2XzBTVzFCNu4bNqeu3aWvBIV7_mAAI8AAPBnGAVm9Mhgk9HvcU0BA",  # Sticker 3
+    "CAACAgUAAxkBAAICsWXzBTU2y0DNFGDJ_A6bL_PsR1-mAAI9AAPBnGAVTrbC7vR2XUg0BA",  # Sticker 4
+    "CAACAgUAAxkBAAICs2XzBTVqRA7N-0DhWQaFf8IG7kaWAAI-AAOBnGAVwIJN6nV1WjY0BA"   # Sticker 5
+]
+
 @bot.on_message(filters.command("start") & filters.private)
 async def start_command(client, message: Message):
     user = message.from_user
@@ -102,22 +111,31 @@ async def start_command(client, message: Message):
 
     await baby.edit_text("**❖ Jᴀʏ Sʜʀᴇᴇ Rᴀᴍ 🚩...**")
     await asyncio.sleep(2)
+    
+    # ✅ **Send a random sticker from the list**
+    random_sticker = random.choice(STICKERS)
+    await message.reply_sticker(random_sticker)
+    await asyncio.sleep(1)
+
     await baby.delete()
 
-    # Save user in MongoDB & Count Total Users
+    # ✅ **MongoDB Check & Insert New User Only Once**
     try:
-        if not users_col.find_one({"_id": user_id}):
-            users_col.insert_one({"_id": user_id, "username": user.username})
-        
-        total_users = users_col.count_documents({})  # Count total users in database
+        existing_user = users_col.find_one({"_id": user_id})  # Check if user exists
 
-        # Notify Owner with Total User Count
-        await bot.send_message(
-            OWNER_ID, 
-            f"**New User Alert!**\n👤 **User:** {user.mention}\n"
-            f"🆔 **ID:** `{user_id}`\n📛 **Username:** {username}\n"
-            f"📊 **Total Users:** `{total_users}`"
-        )
+        if not existing_user:
+            users_col.insert_one({"_id": user_id, "username": user.username})
+            
+            total_users = users_col.count_documents({})  # Count total users
+            
+            # ✅ **Send notification to owner only for new users**
+            await bot.send_message(
+                OWNER_ID, 
+                f"**New User Alert!**\n👤 **User:** {user.mention}\n"
+                f"🆔 **ID:** `{user_id}`\n📛 **Username:** {username}\n"
+                f"📊 **Total Users:** `{total_users}`"
+            )
+
     except errors.PyMongoError as e:
         logging.error(f"MongoDB Error: {e}")
 
