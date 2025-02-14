@@ -202,12 +202,12 @@ async def callback_handler(client, query: CallbackQuery):
 
     elif query.data == "help_admin":
         await query.message.edit_text(
-            "**🔒 Admin Commands:**\n"
-            "`/ban` - Ban a user\n"
-            "`/unban` - Unban a user\n"
-            "`/mute` - Mute a user\n"
-            "`/unmute` - Unmute a user\n"
-            "`/unpin` - Unpin a message",
+            "**❖ ᴀᴅᴍɪɴ Cᴏᴍᴍᴀɴᴅs ❖**\n\n"
+            "● `/ban` **➪ ʙᴀɴ ᴀ ᴜsᴇʀ ●**\n"
+            "● `/unban` **➪ ᴜɴʙᴀɴ ᴀ ᴜsᴇʀ ●**\n"
+            "● `/mute`** ➪ ᴍᴜᴛᴇ ᴀ ᴜsᴇʀ ●**\n"
+            "● `/unmute` **➪ ᴜɴᴍᴜᴛᴇ ᴀ ᴜsᴇʀ ●**\n"
+            "● `/unpin`** ➪ ᴜɴᴘɪɴ ᴀ ᴍᴇssᴀɢᴇ ●**",
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("⌯ ʙᴧᴄᴋ ⌯", callback_data="help_main")]
             ])
