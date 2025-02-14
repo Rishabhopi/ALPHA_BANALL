@@ -181,9 +181,9 @@ async def callback_handler(client, query: CallbackQuery):
         await query.message.edit_text(
             "**🔹 Help Menu 🔹**\n\nChoose a category below to get more details:",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🛠 Basic Commands", callback_data="help_basic"),
-                 InlineKeyboardButton("🔒 Admin Commands", callback_data="help_admin")],
-                [InlineKeyboardButton("⚙️ Advanced Features", callback_data="help_advanced")],
+                [InlineKeyboardButton("˹ ʙᴧsɪᴄ ˼", callback_data="help_basic"),
+                 InlineKeyboardButton("˹ ᴧᴅϻɪη ˼", callback_data="help_admin")],
+                [InlineKeyboardButton("˹ ᴧᴅᴠᴧηᴄє ˼", callback_data="help_advanced")],
                 [InlineKeyboardButton("⌯ ʙᴧᴄᴋ ⌯", callback_data="back_to_start")]
             ])
         )
