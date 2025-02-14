@@ -73,11 +73,11 @@ async def check_force_join(user_id):
 
 
 STICKERS = [
-    "CAACAgUAAxkBAAICq2XzBSX9C1kU7WOsdWkSTjZ51Ue6AAI4AAPBnGAVdVbHhJ-KT-M0BA",  # Sticker 1
-    "CAACAgUAAxkBAAICrWXzBSusacx4AOcs5MlhCTWhjYB4AAI6AAPBnGAVc_rBoRsM-4Y0BA",  # Sticker 2
-    "CAACAgUAAxkBAAICr2XzBTVzFCNu4bNqeu3aWvBIV7_mAAI8AAPBnGAVm9Mhgk9HvcU0BA",  # Sticker 3
-    "CAACAgUAAxkBAAICsWXzBTU2y0DNFGDJ_A6bL_PsR1-mAAI9AAPBnGAVTrbC7vR2XUg0BA",  # Sticker 4
-    "CAACAgUAAxkBAAICs2XzBTVqRA7N-0DhWQaFf8IG7kaWAAI-AAOBnGAVwIJN6nV1WjY0BA"   # Sticker 5
+    "CAACAgUAAxkBAAENygtnrrVXr5zEE-h_eiG8lRUkRkMwfwACExMAAjRk6VbUUzZjByHDfzYE",  # Sticker 1
+    "CAACAgUAAxkBAAENyglnrrUIPfP95UfP7Tg2GAz8b_mbBAACHAsAAgFTKFR6GWIrt0FPfTYE",  # Sticker 2
+    "CAACAgUAAxkBAAENygdnrrSuukBGTLd_k2q-kPf80pPMqgAClw0AAmdr-Fcu4b8ZzcizqDYE",  # Sticker 3
+    "CAACAgUAAxkBAAENygtnrrVXr5zEE-h_eiG8lRUkRkMwfwACExMAAjRk6VbUUzZjByHDfzYE",  # Sticker 4
+    "CAACAgUAAxkBAAENyglnrrUIPfP95UfP7Tg2GAz8b_mbBAACHAsAAgFTKFR6GWIrt0FPfTYE"   # Sticker 5
 ]
 
 @bot.on_message(filters.command("start") & filters.private)
