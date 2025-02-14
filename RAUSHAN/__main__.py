@@ -91,8 +91,8 @@ async def start_command(client, message: Message):
         return await message.reply_text(
             "**❌ You must join our channels first!**",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🔹 Join Channel 1", url=f"https://t.me/{FORCE_JOIN1}")],
-                [InlineKeyboardButton("🔸 Join Channel 2", url=f"https://t.me/{FORCE_JOIN2}")],
+                [InlineKeyboardButton("🍬Join 🍬", url=f"https://t.me/{FORCE_JOIN1}")],
+                [InlineKeyboardButton("🍬 Join 🍬", url=f"https://t.me/{FORCE_JOIN2}")],
                 [InlineKeyboardButton("✅ I Joined", callback_data="check_force")]
             ])
         )
@@ -184,7 +184,7 @@ async def callback_handler(client, query: CallbackQuery):
                 [InlineKeyboardButton("🛠 Basic Commands", callback_data="help_basic"),
                  InlineKeyboardButton("🔒 Admin Commands", callback_data="help_admin")],
                 [InlineKeyboardButton("⚙️ Advanced Features", callback_data="help_advanced")],
-                [InlineKeyboardButton("🔙 Back to Start", callback_data="back_to_start")]
+                [InlineKeyboardButton("⌯ ʙᴧᴄᴋ ⌯", callback_data="back_to_start")]
             ])
         )
 
@@ -196,7 +196,7 @@ async def callback_handler(client, query: CallbackQuery):
             "`/info` - Get your user info\n"
             "`/about` - Know about the bot",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🔙 Back", callback_data="help_main")]
+                [InlineKeyboardButton("⌯ ʙᴧᴄᴋ ⌯", callback_data="help_main")]
             ])
         )
 
@@ -209,7 +209,7 @@ async def callback_handler(client, query: CallbackQuery):
             "`/unmute` - Unmute a user\n"
             "`/unpin` - Unpin a message",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🔙 Back", callback_data="help_main")]
+                [InlineKeyboardButton("⌯ ʙᴧᴄᴋ ⌯", callback_data="help_main")]
             ])
         )
 
@@ -222,7 +222,7 @@ async def callback_handler(client, query: CallbackQuery):
             "`/unmuteall` - Unmute all members\n"
             "`/broadcast` - Send a message to all users",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("🔙 Back", callback_data="help_main")]
+                [InlineKeyboardButton("⌯ ʙᴧᴄᴋ ⌯", callback_data="help_main")]
             ])
         )
 
