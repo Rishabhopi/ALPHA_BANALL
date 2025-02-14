@@ -215,12 +215,12 @@ async def callback_handler(client, query: CallbackQuery):
 
     elif query.data == "help_advanced":
         await query.message.edit_text(
-            "**⚙️ Advanced Features:**\n"
-            "`/banall` - Ban all members in a group\n"
-            "`/unbanall` - Unban all members\n"
-            "`/muteall` - Mute all members\n"
-            "`/unmuteall` - Unmute all members\n"
-            "`/broadcast` - Send a message to all users",
+            "**❖ ᴀᴅᴠᴀɴᴄᴇᴅ ғᴇᴀᴛᴜʀᴇs ❖**\n\n"
+            "● `/banall`** ➪ ʙᴀɴ ᴀʟʟ ᴍᴇᴍʙᴇʀs ɪɴ ᴀ ɢʀᴏᴜᴘ ●**\n"
+            "● `/unbanall`** ➪ ᴜɴʙᴀɴ ᴀʟʟ ᴍᴇᴍʙᴇʀs ●**\n"
+            "● `/muteall`** ➪ ᴍᴜᴛᴇ ᴀʟʟ ᴍᴇᴍʙᴇʀs ●**\n"
+            "● `/unmuteall`** ➪ ᴜɴᴍᴜᴛᴇ ᴀʟʟ ᴍᴇᴍʙᴇʀs ●**\n"
+            "● `/broadcast`** ➪ sᴇɴᴅ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ ᴀʟʟ ᴜsᴇʀs ●**",
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("⌯ ʙᴧᴄᴋ ⌯", callback_data="help_main")]
             ])
