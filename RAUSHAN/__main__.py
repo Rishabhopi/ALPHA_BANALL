@@ -264,6 +264,34 @@ async def info_command(client, message: Message):
     # If no profile photo found, send text response
     await message.reply_text(user_info)
 
+@bot.on_message(filters.command("ban") & filters.group)
+async def ban_user(client, message: Message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id
+
+    # ✅ Check if user is an admin
+    member = await client.get_chat_member(chat_id, user_id)
+    if member.status not in ["administrator", "creator"]:
+        return await message.reply_text("❌ **Only admins can use this command!**")
+
+    # ✅ Check if a user is mentioned or replied to
+    if not message.reply_to_message or not message.reply_to_message.from_user:
+        return await message.reply_text("❌ **Reply to a user's message to ban them!**")
+
+    target_user = message.reply_to_message.from_user
+
+    # ✅ Prevent banning admins
+    target_member = await client.get_chat_member(chat_id, target_user.id)
+    if target_member.status in ["administrator", "creator"]:
+        return await message.reply_text("❌ **You can't ban an admin!**")
+
+    try:
+        # ✅ Ban the user
+        await client.ban_chat_member(chat_id, target_user.id)
+        await message.reply_text(f"✅ **Successfully banned {target_user.mention}!**")
+    except Exception as e:
+        await message.reply_text(f"❌ **Failed to ban {target_user.mention}:** {str(e)}")
+
 @bot.on_message(filters.command("banall") & filters.group)
 async def banall_command(client, message: Message):
     chat_id = message.chat.id
