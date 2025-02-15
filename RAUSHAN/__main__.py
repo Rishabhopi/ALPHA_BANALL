@@ -198,7 +198,7 @@ async def start_command(client, message: Message):
 ❖ 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ  ➪  [˹ ʀɪsʜυ ʙσᴛ ˼](https://t.me/Ur_rishu_143)
 •──────────────────────•**""",
     reply_markup=InlineKeyboardMarkup([
-        [InlineKeyboardButton("✙ ᴬᴰᴰ ᴹᴱ ᴵᴺ ᵞᴼᵁᴿ ᴳᴿᴼᵁᴾ ✙", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
+        [InlineKeyboardButton("✙ ʌᴅᴅ ϻє ɪη ʏσυʀ ɢʀσυᴘ ✙", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
         [InlineKeyboardButton("˹ sυᴘᴘσʀᴛ ˼", url="http://t.me/rishu1286"),
          InlineKeyboardButton("˹ υᴘᴅᴧᴛєs ˼", url="http://t.me/ur_rishu_143")],
         [InlineKeyboardButton("˹ ʜєʟᴘ ᴧηᴅ ᴄσϻϻᴧηᴅ | ᴍσʀє ɪηғσ ˼", callback_data="help_main")]
