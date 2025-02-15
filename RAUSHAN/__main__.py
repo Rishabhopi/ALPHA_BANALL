@@ -328,7 +328,7 @@ async def ban_user(client, message: Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
 
-    # ✅ Check if user is an admin
+    # ✅ Check if the user is an admin
     member = await client.get_chat_member(chat_id, user_id)
     if member.status not in ["administrator", "creator"]:
         return await message.reply_text("❌ **Only admins can use this command!**")
