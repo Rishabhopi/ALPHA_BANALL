@@ -248,10 +248,10 @@ async def mute_user(client, message: Message):
     chat_id = message.chat.id
     user_id = message.from_user.id
 
-    # ✅ Check if user is an admin
+    # ✅ Check if the user is an admin
     member = await client.get_chat_member(chat_id, user_id)
-    if member.status not in ["administrator", "creator"]:
-        return await message.reply_text("❌ **Only admins can use this command!**")
+    if not (member.status in ["administrator", "creator"] and member.privileges.can_restrict_members):
+        return await message.reply_text("❌ **You must be an admin with ban permission to mute users!**")
 
     # ✅ Check if a user is mentioned or replied to
     if not message.reply_to_message or not message.reply_to_message.from_user:
