@@ -312,30 +312,20 @@ async def ban_user(client, message: Message):
     except Exception as e:
         await message.reply_text(f"❌ **Failed to ban {target_user.mention}:** {str(e)}")
 
-@bot.on_message(filters.command("banall") & filters.group)
+@app.on_message(
+filters.command("banall") 
+& filters.group
+)
 async def banall_command(client, message: Message):
-    chat_id = message.chat.id
-    admin = await bot.get_chat_member(chat_id, message.from_user.id)
-
-    if admin.status not in ["administrator", "creator"]:
-        return await message.reply_text("❌ **You need to be an admin to use this command!**")
-
-    if not admin.can_restrict_members:
-        return await message.reply_text("❌ **I need Ban Members permission to perform this action!**")
-
-    await message.reply_text("🔖 **Starting Backloli Process...**")
-    
-    count = 0
-    failed = 0
-    async for member in bot.get_chat_members(chat_id):
+    print("getting memebers from {}".format(message.chat.id))
+    async for i in app.get_chat_members(message.chat.id):
         try:
-            if member.user.id != message.from_user.id and member.user.id != bot.me.id:
-                await bot.ban_chat_member(chat_id, member.user.id)
-                count += 1
+            await app.ban_chat_member(chat_id = message.chat.id, user_id = i.user.id)
+            print("kicked {} from {}".format(i.user.id, message.chat.id))
         except Exception as e:
-            failed += 1
+            print("failed to kicked {} from {}".format(i.user.id, e))           
+    print("process completed")
 
-    await message.reply_text(f"✅ **Banned {count} members!**\n❌ **Failed: {failed}**")
 
 @bot.on_message(filters.command("kickall") & filters.group)
 async def kickall_command(client, message: Message):
