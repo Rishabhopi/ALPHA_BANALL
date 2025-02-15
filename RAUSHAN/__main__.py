@@ -337,8 +337,13 @@ async def ban_user(client, message: Message):
 
     # ✅ Check if the user is an admin
     member = await client.get_chat_member(chat_id, user_id)
+    print(f"Command Used by: {message.from_user.mention} | Status: {member.status} | Privileges: {getattr(member, 'privileges', None)}")
+
     if member.status not in ["administrator", "creator"]:
         return await message.reply_text("❌ **Only admins can use this command!**")
+
+    if not hasattr(member, "privileges") or not member.privileges.can_restrict_members:
+        return await message.reply_text("❌ **You don't have permission to ban users!**")
 
     # ✅ Check if a user is mentioned or replied to
     if not message.reply_to_message or not message.reply_to_message.from_user:
@@ -348,6 +353,8 @@ async def ban_user(client, message: Message):
 
     # ✅ Prevent banning admins
     target_member = await client.get_chat_member(chat_id, target_user.id)
+    print(f"Target User: {target_user.mention} | Status: {target_member.status}")
+
     if target_member.status in ["administrator", "creator"]:
         return await message.reply_text("❌ **You can't ban an admin!**")
 
