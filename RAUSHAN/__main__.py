@@ -245,66 +245,32 @@ async def callback_handler(client, query: CallbackQuery):
 
 @bot.on_message(filters.command("mute") & filters.group)
 async def mute_user(client, message: Message):
-    chat_id = message.chat.id
-    user_id = message.from_user.id
+    if message.from_user.id != OWNER_ID:
+        return await message.reply_text("❌ **Only the bot owner can use this command!**")
 
-    # ✅ Check if the user is an admin
-    member = await client.get_chat_member(chat_id, user_id)
-    
-    # ✅ Debugging: Print admin status
-    print(f"User: {message.from_user.mention} | Status: {member.status} | Privileges: {getattr(member, 'privileges', None)}")
-
-    if member.status not in ["administrator", "creator"]:
-        return await message.reply_text("❌ **You must be an admin to mute users!**")
-
-    if not hasattr(member, "privileges") or not member.privileges.can_restrict_members:
-        return await message.reply_text("❌ **You don't have permission to mute users!**")
-
-    # ✅ Check if a user is mentioned or replied to
     if not message.reply_to_message or not message.reply_to_message.from_user:
         return await message.reply_text("❌ **Reply to a user's message to mute them!**")
 
     target_user = message.reply_to_message.from_user
 
-    # ✅ Prevent muting admins
-    target_member = await client.get_chat_member(chat_id, target_user.id)
-    if target_member.status in ["administrator", "creator"]:
-        return await message.reply_text("❌ **You can't mute an admin!**")
-
     try:
-        # ✅ Mute the user (Restrict from sending messages)
-        await client.restrict_chat_member(
-            chat_id, 
-            target_user.id, 
-            ChatPermissions(can_send_messages=False)
-        )
+        await client.restrict_chat_member(message.chat.id, target_user.id, ChatPermissions(can_send_messages=False))
         await message.reply_text(f"✅ **Successfully muted {target_user.mention}!**")
     except Exception as e:
         await message.reply_text(f"❌ **Failed to mute {target_user.mention}:** {str(e)}")
 
 @bot.on_message(filters.command("unmute") & filters.group)
 async def unmute_user(client, message: Message):
-    chat_id = message.chat.id
-    user_id = message.from_user.id
+    if message.from_user.id != OWNER_ID:
+        return await message.reply_text("❌ **Only the bot owner can use this command!**")
 
-    # ✅ Check if user is an admin
-    member = await client.get_chat_member(chat_id, user_id)
-    if member.status not in ["administrator", "creator"]:
-        return await message.reply_text("❌ **Only admins can use this command!**")
-
-    # ✅ Check if a user is mentioned or replied to
     if not message.reply_to_message or not message.reply_to_message.from_user:
         return await message.reply_text("❌ **Reply to a user's message to unmute them!**")
 
     target_user = message.reply_to_message.from_user
 
     try:
-        # ✅ Unmute the user (Restore default chat permissions)
-        await client.restrict_chat_member(
-            chat_id, 
-            target_user.id, 
-            ChatPermissions(can_send_messages=True)
-        )
+        await client.restrict_chat_member(message.chat.id, target_user.id, ChatPermissions(can_send_messages=True))
         await message.reply_text(f"✅ **Successfully unmuted {target_user.mention}!**")
     except Exception as e:
         await message.reply_text(f"❌ **Failed to unmute {target_user.mention}:** {str(e)}")
