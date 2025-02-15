@@ -86,7 +86,7 @@ async def start_command(client, message: Message):
     user_id = user.id
     username = f"@{user.username}" if user.username else "No Username"
 
-    # Force join check
+    # ✅ Force join check
     if not await check_force_join(user_id):
         return await message.reply_text(
             "**❌ You must join our channels first!**",
@@ -97,7 +97,7 @@ async def start_command(client, message: Message):
             ])
         )
 
-    # Start progress animation
+    # ✅ Start progress animation
     baby = await message.reply_text("[□□□□□□□□□□] 0%")
     progress = [
         "[■□□□□□□□□□] 10%", "[■■□□□□□□□□] 20%", "[■■■□□□□□□□] 30%",
@@ -112,16 +112,18 @@ async def start_command(client, message: Message):
     await baby.edit_text("**❖ Jᴀʏ Sʜʀᴇᴇ Rᴀᴍ 🚩...**")
     await asyncio.sleep(2)
 
-    # ✅ **Send a random sticker from the list with error handling**
+    # ✅ **Send a random sticker**
     try:
         random_sticker = random.choice(STICKERS)  # Ensure STICKERS is a valid list
-        await message.reply_sticker(random_sticker)
+        sticker_msg = await message.reply_sticker(random_sticker)  # Send sticker
+        await asyncio.sleep(2)  # Wait before deleting
+        await sticker_msg.delete()  # Delete the sticker after 2 seconds
     except Exception as e:
         print(f"Sticker send failed: {e}")  # Debugging: Check if sticker is invalid
 
     await asyncio.sleep(1)
 
-    # ✅ **Ensure progress message is deleted even if sticker fails**
+    # ✅ **Ensure progress message is deleted**
     try:
         await baby.delete()
     except Exception as e:
@@ -146,10 +148,43 @@ async def start_command(client, message: Message):
     except Exception as e:
         print(f"MongoDB Error: {e}")
 
-    # Main Start Message
+    # ✅ **Send a random image after sticker deletion**
+    random_images = [
+        "https://graph.org/file/f76fd86d1936d45a63c64.jpg",
+        "https://graph.org/file/69ba894371860cd22d92e.jpg",
+        "https://graph.org/file/67fde88d8c3aa8327d363.jpg",
+        "https://graph.org/file/3a400f1f32fc381913061.jpg",
+        "https://graph.org/file/a0893f3a1e6777f6de821.jpg",
+        "https://graph.org/file/5a285fc0124657c7b7a0b.jpg",
+        "https://graph.org/file/25e215c4602b241b66829.jpg",
+        "https://graph.org/file/a13e9733afdad69720d67.jpg",
+        "https://graph.org/file/692e89f8fe20554e7a139.jpg",
+        "https://graph.org/file/db277a7810a3f65d92f22.jpg",
+        "https://graph.org/file/a00f89c5aa75735896e0f.jpg",
+        "https://graph.org/file/f86b71018196c5cfe7344.jpg",
+        "https://graph.org/file/a3db9af88f25bb1b99325.jpg",
+        "https://graph.org/file/5b344a55f3d5199b63fa5.jpg",
+        "https://graph.org/file/84de4b440300297a8ecb3.jpg",
+        "https://graph.org/file/84e84ff778b045879d24f.jpg",
+        "https://graph.org/file/a4a8f0e5c0e6b18249ffc.jpg",
+        "https://graph.org/file/ed92cada78099c9c3a4f7.jpg",
+        "https://graph.org/file/d6360613d0fa7a9d2f90b.jpg",
+        "https://graph.org/file/37248e7bdff70c662a702.jpg",
+        "https://graph.org/file/0bfe29d15e918917d1305.jpg",
+        "https://graph.org/file/16b1a2828cc507f8048bd.jpg",
+        "https://graph.org/file/e6b01f23f2871e128dad8.jpg",
+        "https://graph.org/file/cacbdddee77784d9ed2b7.jpg",
+        "https://graph.org/file/ddc5d6ec1c33276507b19.jpg",
+        "https://graph.org/file/39d7277189360d2c85b62.jpg",
+        "https://graph.org/file/5846b9214eaf12c3ed100.jpg",
+        "https://graph.org/file/ad4f9beb4d526e6615e18.jpg",
+        "https://graph.org/file/3514efaabe774e4f181f2.jpg",
+    ]
+    random_image = random.choice(random_images)
+
     await message.reply_photo(
-        photo="https://files.catbox.moe/qej5mx.jpg",
-        caption=f"""**┌────── ˹ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ˼──────•
+    photo=random_image,
+    caption=f"""**┌────── ˹ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ˼──────•
 ┆✦ » ʜᴇʏ {user.mention}
 └──────────────────────•
 
@@ -160,15 +195,15 @@ async def start_command(client, message: Message):
 ✦ » ᴄʜᴇᴄᴋ ᴍʏ ᴀʙɪʟɪᴛʏ, ɢɪᴠᴇ ᴍᴇ ғᴜʟʟ ᴘᴏᴡᴇʀs ᴀɴᴅ ᴛʏᴘᴇ `/banall` ᴛᴏ ꜱᴇᴇ ᴍᴀɢɪᴄ ɪɴ ɢʀᴏᴜᴘ. 
 
 •──────────────────────•
-❖ 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ  ➪  [˹ ʀɪsʜυ ʙσᴛ ˼](https://t.me/Ur_rishu_143)
+❖ 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ  ➪  [˹ ʀɪsʜυ ʙσᴛ ˼](https://t.me/Ur_rishu_143)
 •──────────────────────•**""",
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("✙ ʌᴅᴅ ϻє ɪη ʏσυʀ ɢʀσυᴘ ✙", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
-            [InlineKeyboardButton("˹ sυᴘᴘσʀᴛ ˼", url="http://t.me/rishu1286"),
-             InlineKeyboardButton("˹ υᴘᴅᴧᴛєs ˼", url="http://t.me/ur_rishu_143")],
-            [InlineKeyboardButton("˹ ʜєʟᴘ ᴧηᴅ ᴄσϻϻᴧηᴅ | ᴍσʀє ɪηғσ ˼", callback_data="help_main")]
-        ])
-    )
+    reply_markup=InlineKeyboardMarkup([
+        [InlineKeyboardButton("✙ ᴬᴰᴰ ᴹᴱ ᴵᴺ ᵞᴼᵁᴿ ᴳᴿᴼᵁᴾ ✙", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
+        [InlineKeyboardButton("˹ sυᴘᴘσʀᴛ ˼", url="http://t.me/rishu1286"),
+         InlineKeyboardButton("˹ υᴘᴅᴧᴛєs ˼", url="http://t.me/ur_rishu_143")],
+        [InlineKeyboardButton("˹ ʜєʟᴘ ᴧηᴅ ᴄσϻϻᴧηᴅ | ᴍσʀє ɪηғσ ˼", callback_data="help_main")]
+    ])
+)
 
 @bot.on_callback_query()
 async def callback_handler(client, query: CallbackQuery):
