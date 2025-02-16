@@ -510,25 +510,34 @@ async def ping_command(client, message: Message):
     end = time()
     await reply.edit_text(f"🏓 **Pong!**\n📡 **Latency:** `{round((end - start) * 1000)}ms`")
 
+
+
 @app.on_message(filters.command("broadcast") & filters.user(OWNER_ID))
 async def broadcast(client, message):
     if not message.reply_to_message:
         return await message.reply_text("**Reply to a message to broadcast!**")
-    
-    users = db.users.find()  # MongoDB se sab users ka data le raha hai
-    sent_count = 0
-    failed_count = 0
 
+    users = db.users.find({}, {"user_id": 1})  # Sirf user_id fetch kar raha hai
+    sent_count, failed_count = 0, 0
+
+    tasks = []
     for user in users:
-        try:
-            await message.reply_to_message.copy(user["user_id"])
-            sent_count += 1
-            await asyncio.sleep(0.5)  # Spam avoid karne ke liye
-        except Exception as e:
-            failed_count += 1
-            print(f"Failed to send message to {user['user_id']}: {e}")
+        tasks.append(forward_broadcast(client, message.reply_to_message, user["user_id"]))
+
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    sent_count = results.count(None)  # None means success
+    failed_count = len(results) - sent_count
 
     await message.reply_text(f"✅ **Broadcast Sent Successfully!**\n📩 Sent: {sent_count}\n❌ Failed: {failed_count}")
+
+async def forward_broadcast(client, message, user_id):
+    try:
+        await client.forward_messages(user_id, message.chat.id, message.message_id)
+        await asyncio.sleep(0.5)  # Spam prevent karne ke liye
+    except Exception as e:
+        print(f"Failed to send message to {user_id}: {e}")
+        return e  # Failed count increase karne ke liye
 
 @bot.on_message(filters.command("restart") & filters.user(OWNER_ID))
 async def restart_command(client, message: Message):
