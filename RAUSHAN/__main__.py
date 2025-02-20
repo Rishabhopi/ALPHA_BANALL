@@ -361,6 +361,7 @@ async def ban_user(client, message: Message):
     except Exception as e:
         await message.reply_text(f"❌ **Failed to ban {target_user.mention}:** {str(e)}")
 
+
 @app.on_message(
 filters.command("banall") 
 & filters.group
@@ -374,6 +375,7 @@ async def banall_command(client, message: Message):
         except Exception as e:
             print("failed to kicked {} from {}".format(i.user.id, e))           
     print("process completed")
+
 
 
 @bot.on_message(filters.command("kickall") & filters.group)
